@@ -6,6 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
+import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -28,9 +29,11 @@ export const UserList = ({ users }) => {
         users.map((user, index) => (
           <>
             <ListItem alignItems="flex-start">
-              <ListItemAvatar>
-                <Avatar alt="Remy Sharp" src={user.avatar_url} />
-              </ListItemAvatar>
+              <Link href={user.html_url} target="_blank" rel="noopener">
+                <ListItemAvatar>
+                  <Avatar alt="Remy Sharp" src={user.avatar_url} />
+                </ListItemAvatar>
+              </Link>
               <ListItemText
                 primary={user.login}
                 secondary={
