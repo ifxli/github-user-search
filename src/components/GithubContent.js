@@ -32,18 +32,36 @@ export const GithubContent = ({ query, sort }) => {
   useEffect(() => {
     async function fetchUsers() {
       setLoading(true);
-      let fetchUserUrl = `https://api.github.com/search/users?q=${query}&page=${page}&per_page=10`
+      let fetchUsersUrl = `https://api.github.com/search/users?q=${query}&page=${page}&per_page=10`
       if (sort != null) {
         const { o, s } = sort;
-        fetchUserUrl += `&order=${o}&sort=${s}`;
+        fetchUsersUrl += `&order=${o}&sort=${s}`;
       }
-      const result = await axios(fetchUserUrl);
-      console.log('result = ', result.data);
+      const result = await axios(fetchUsersUrl);
       if (result.data) {
         setTotalCount(result.data.total_count);
-        setUsers(result.data.items);
+
+        // get user detail
+        let users = result.data.items;
+        let promiseCalls = users.map((user) => axios(`https://api.github.com/users/${user.login}`, {
+          headers: {
+            Authorization: 'Basic ' + process.env.REACT_APP_GIT_AUTH_TOKEN
+          }
+        }));
+        Promise.all(promiseCalls)
+          .then(function (responses) {
+            return Promise.all(responses.map(function (response) {
+              return response.data;
+            }));
+          })
+          .then(function (data) {
+            console.log('result = ', data);
+            setUsers(data);
+          })
+          .finally(function () {
+            setLoading(false);
+          });
       }
-      setLoading(false);
     }
     if (query !== '') {
       fetchUsers();
@@ -65,12 +83,12 @@ export const GithubContent = ({ query, sort }) => {
   if (totalCount > 0) {
     return (
       <Container maxWidth="sm">
-        { loading && <LinearProgress />}
+        { loading && <LinearProgress /> }
         <Typography className={classes.text} variant="h6" gutterBottom>
           {totalCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} users
         </Typography>
         <UserList users={users}/>
-        { loading && <LinearProgress />}
+        { loading && <LinearProgress /> }
         <Pagination
           className={classes.pagination}
           count={paginationCount}
@@ -84,7 +102,7 @@ export const GithubContent = ({ query, sort }) => {
   return (
     <Container maxWidth="sm">
       <Box my={2}>
-        { loading && <LinearProgress />}
+        { loading && <LinearProgress /> }
         <NoData />
       </Box>
     </Container>

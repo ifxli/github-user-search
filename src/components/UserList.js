@@ -35,18 +35,47 @@ export const UserList = ({ users }) => {
                 </ListItemAvatar>
               </Link>
               <ListItemText
-                primary={user.login}
+                primary={
+                  <Fragment>
+                    <Link href={user.html_url} target="_blank" rel="noopener">
+                      <Typography
+                        component="span"
+                        variant="body2"
+                        className={classes.inline}
+                        color="textSecondary"
+                      >
+                        {user.name}
+                      </Typography>
+                    </Link>
+                    &nbsp;
+                    <Link href={user.html_url} target="_blank" rel="noopener">
+                      {user.login}
+                    </Link>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                    >
+                      {user.location}
+                    </Typography>
+                  </Fragment>
+                }
                 secondary={
                   <Fragment>
                     <Typography
-                      component="span"
+                    component="span"
                       variant="body2"
-                      className={classes.inline}
                       color="textPrimary"
                     >
-                      {user.login}
+                      {user.bio}
                     </Typography>
-                    {"Test for now"}
+                    <br></br>
+                    <Typography
+                      component="span"
+                      variant="body2"
+                      color="textSecondary"
+                    >
+                      followers: {user.followers}, following: {user.following}, gists: {user.public_gists}, repos: {user.public_repos}
+                    </Typography>
                   </Fragment>
                 }
               />
