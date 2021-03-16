@@ -11,6 +11,12 @@ const useStyles = makeStyles((theme) => ({
   text: {
     padding: theme.spacing(2, 2, 0),
   },
+  pagination: {
+    marginTop: theme.spacing(1),
+    width: 'fit-content',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  }
 }));
 
 export const GithubContent = ({ query, sort }) => {
@@ -63,7 +69,13 @@ export const GithubContent = ({ query, sort }) => {
         </Typography>
         <UserList users={users}/>
         { loading && <LinearProgress />}
-        <Pagination count={paginationCount} page={page} shape="rounded" onChange={handlePageChange}/>
+        <Pagination
+          className={classes.pagination}
+          count={paginationCount}
+          page={page}
+          shape="rounded"
+          onChange={handlePageChange}
+        />
       </Container>
     )
   }
