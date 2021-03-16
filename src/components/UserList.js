@@ -27,7 +27,7 @@ export const UserList = ({ users }) => {
     <List className={classes.root}>
       {
         users.map((user, index) => (
-          <>
+          <div key={index}>
             <ListItem alignItems="flex-start">
               <Link href={user.html_url} target="_blank" rel="noopener">
                 <ListItemAvatar>
@@ -52,7 +52,7 @@ export const UserList = ({ users }) => {
               />
             </ListItem>
             {index < users.length - 1 && <Divider variant="inset" component="li" />}
-          </>   
+          </div>   
         ))
       }
     </List>

@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Pagination from '@material-ui/lab/Pagination';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { UserList } from './UserList';
+import { NoData } from './NoData';
 
 const useStyles = makeStyles((theme) => ({
   text: {
@@ -81,7 +83,10 @@ export const GithubContent = ({ query, sort }) => {
   }
   return (
     <Container maxWidth="sm">
-      <div>No Data</div>
+      <Box my={2}>
+        { loading && <LinearProgress />}
+        <NoData />
+      </Box>
     </Container>
   )
 }
